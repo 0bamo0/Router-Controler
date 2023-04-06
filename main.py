@@ -53,6 +53,9 @@ class Main(tk.Tk):
         self.network_upload_speed = tk.Label(self.network_speed_frame, text="")
         self.network_upload_speed.pack(side='left')
 
+        self.button_reboot = tk.Button(self, text="Reboot",command=lambda: self.reboot())
+        self.button_reboot.pack()
+
         self.button_logout = tk.Button(self.login_frame, text="Logout",command=lambda: self.log('out'))
         self.button_logout.pack()
     
@@ -108,8 +111,7 @@ class Main(tk.Tk):
             self.network_download_speed.configure(text = "")
             self.network_upload_speed.configure(text = "")
         self.network_options.set(self.Network_modes[net_mode])
-
-
+        print(self.check_state())
         self.after(200,self.update_GUI)
         
     def log(self,type):
@@ -141,6 +143,15 @@ class Main(tk.Tk):
         else:
             pass
         response = self.session.post(POST_URL,data=payload)
-
-app = Main()
+    
+    def reboot(self):
+        try:
+            payload = {'goformId':'REBOOT_DEVICE'}
+            self.session.post(POST_URL,data=payload)
+        except:
+            pass
+try:
+    app = Main()
+except:
+    pass
 app.mainloop()
