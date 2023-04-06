@@ -103,6 +103,8 @@ class Main(tk.Tk):
         else:
             self.button_login.configure(state='normal')
             self.button_logout.configure(state='disabled')
+            self.button_connect_data.configure(state="disabled")
+            self.button_discconect_data.configure(state="disabled")
             self.network_download_speed.configure(text = "")
             self.network_upload_speed.configure(text = "")
         self.network_options.set(self.Network_modes[net_mode])
