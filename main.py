@@ -150,8 +150,5 @@ class Main(tk.Tk):
             self.session.post(POST_URL,data=payload)
         except:
             pass
-try:
-    app = Main()
-except:
-    pass
+app = Main()
 app.mainloop()
