@@ -93,12 +93,19 @@ class Main(tk.Tk):
             elif data_on == 'connecting':
                 self.button_connect_data.configure(state="disabled")
                 self.button_discconect_data.configure(state="disabled")
+            try:
+                self.network_download_speed.configure(text = str(int(d)/1024))
+                self.network_upload_speed.configure(text = str(int(u)/1024))
+            except:
+                pass
         else:
             self.button_login.configure(state='normal')
             self.button_logout.configure(state='disabled')
+            self.network_download_speed.configure(text = "")
+            self.network_upload_speed.configure(text = "")
         self.network_options.set(self.Network_modes[net_mode])
-        self.network_download_speed.configure(text = str(int(d)/1024))
-        self.network_upload_speed.configure(text = str(int(u)/1024))
+        
+
         self.after(200,self.update_GUI)
         
     def log(self,type):
