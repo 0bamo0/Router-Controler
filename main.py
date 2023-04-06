@@ -9,6 +9,7 @@ POST_URL = "http://192.168.8.1/reqproc/proc_post"
 class Main(tk.Tk):
     def __init__(self):
         super().__init__()
+        self.session = requests.Session()
         self.GUI()
         self.update_GUI()
     
@@ -57,7 +58,7 @@ class Main(tk.Tk):
     
     def check_state(self):
         login_info_url = f"{GET_URL}loginfo%2Cppp_status%2Csub_network_type%2Crealtime_tx_thrpt%2Crealtime_rx_thrpt"
-        response = requests.get(login_info_url)
+        response = self.session.get(login_info_url)
         if response.status_code == 200:
             data = response.json()
             if data["loginfo"] == "ok" :
@@ -90,6 +91,7 @@ class Main(tk.Tk):
             elif not data_on:
                 self.button_connect_data.configure(state="normal")
                 self.button_discconect_data.configure(state="disabled")
+                self.network_mode_selector.configure(state='normal')
             elif data_on == 'connecting':
                 self.button_connect_data.configure(state="disabled")
                 self.button_discconect_data.configure(state="disabled")
@@ -104,7 +106,7 @@ class Main(tk.Tk):
             self.network_download_speed.configure(text = "")
             self.network_upload_speed.configure(text = "")
         self.network_options.set(self.Network_modes[net_mode])
-        
+
 
         self.after(200,self.update_GUI)
         
@@ -116,7 +118,7 @@ class Main(tk.Tk):
         elif type == "out":
             payload = {"goformId":"LOGOUT"}
         try:
-            requests.post(POST_URL,data=payload)
+            self.session.post(POST_URL,data=payload)
         except:
             pass
     
@@ -125,7 +127,7 @@ class Main(tk.Tk):
             payload = {"notCallback":"true","goformId":"CONNECT_NETWORK"}
         elif switch == "off":
             payload =  {"notCallback":"true","goformId":"DISCONNECT_NETWORK"}
-        requests.post(POST_URL,data=payload)
+        self.session.post(POST_URL,data=payload)
 
     def setNetworkMode(self,option):
         if option == '3G Only':
@@ -136,7 +138,7 @@ class Main(tk.Tk):
             payload = {"BearerPreference":"NETWORK_auto","goformId":"SET_BEARER_PREFERENCE"}
         else:
             pass
-        response = requests.post(POST_URL,data=payload)
+        response = self.session.post(POST_URL,data=payload)
 
 app = Main()
 app.mainloop()
