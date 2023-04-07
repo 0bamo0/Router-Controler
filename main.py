@@ -11,6 +11,7 @@ class Main(tk.Tk):
         super().__init__()
         self.session = requests.Session()
         self.GUI()
+        self.check_state()
         self.update_GUI()
     
     def GUI(self):
@@ -68,16 +69,22 @@ class Main(tk.Tk):
                 logged = True
             elif data["loginfo"] == "":
                 logged = False
+            else:
+                logged = False
             if data["ppp_status"] == "ppp_connected" :
                 mobile_data = True
             elif data["ppp_status"] == "ppp_disconnected":
                 mobile_data = False
             elif data["ppp_status"] == "ppp_connecting":
                 mobile_data = "connecting"
+            else:
+                mobile_data = False
             if data["sub_network_type"] == "FDD_LTE" :
                 net_mode = 0
             elif data["sub_network_type"] == "WCDMA" or "HSPA++":
                 net_mode = 1
+            else:
+                net_mode = False
             network_download_speed = data['realtime_rx_thrpt']
             network_upload_speed = data['realtime_tx_thrpt']
         return logged,mobile_data,net_mode,network_download_speed,network_upload_speed
