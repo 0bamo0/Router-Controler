@@ -29,7 +29,7 @@ class Main(tk.Tk):
         self.network_speed_frame.pack()
 
         self.password_field = tk.Entry(self.login_frame,show="*")
-        self.password_field.insert(0,'admin1')
+        self.password_field.insert(0,'admin')
         self.password_field.pack()
 
         self.button_login = tk.Button(self.login_frame, text="Login",command=lambda: self.log('in'))
@@ -87,6 +87,7 @@ class Main(tk.Tk):
         if logged:
             self.button_login.configure(state='disabled')
             self.button_logout.configure(state='normal')
+            self.button_reboot.configure(state="normal")
             if data_on:
                 self.button_connect_data.configure(state="disabled")
                 self.button_discconect_data.configure(state="normal")
@@ -110,8 +111,8 @@ class Main(tk.Tk):
             self.button_discconect_data.configure(state="disabled")
             self.network_download_speed.configure(text = "")
             self.network_upload_speed.configure(text = "")
+            self.button_reboot.configure(state="disabled")
         self.network_options.set(self.Network_modes[net_mode])
-        print(self.check_state())
         self.after(200,self.update_GUI)
         
     def log(self,type):
